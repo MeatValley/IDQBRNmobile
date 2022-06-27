@@ -6,10 +6,6 @@ import TableScreen from "./src/screens/TableScreen";
 const navigator = createStackNavigator(
   {
     Home: HomeScreen,
-    Image: ImageScreen,
-    Counter: CounterScreen,
-    Color: ColorsScreen,
-    Square: SquareScreen,
     Table: TableScreen
   },
   {
