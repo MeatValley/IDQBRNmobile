@@ -8,84 +8,54 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const HomeScreen = (props) =>{
-    return (
-        <View style={styles.container}>
-          <TouchableOpacity onPress={() => alert('SELVA!!!')} style={styles.button}>
-            <Text style={styles.buttonText}>IDQBRN</Text>
-          </TouchableOpacity>
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
 
+    return (
+
+        <View style={styles.container}>
           <Text style = {styles.MainText}>Bem Vindo ao Mapeamento de Infecções do IDQBRN!</Text>
           <Image style={styles.logo} source={require('../../assets/home.jpeg')} />
 
           <TouchableOpacity onPress={() => props.navigation.navigate('Table')} style={styles.buttonSearch}>
             <Text style={styles.buttonText}>    Consultar casos proximos</Text>
           </TouchableOpacity>
-          <StatusBar style="auto" />
+
+          <View style={{
+            width:'100%', height:'3%', backgroundColor: 'white'}} />
+
+          <TouchableOpacity onPress={() => props.navigation.navigate('Table')} style={styles.buttonSearch}>
+            <Text style={styles.buttonText}>                  Ver Mapa </Text>
+          </TouchableOpacity> 
+          
+          <View style={{
+            width:'100%', height:'7%', backgroundColor: 'white'}} />
+
           </View>
-        // <View>
-        //     <Text>Home</Text>
-        //     <Button 
-        //         title = 'To images'
-        //         onPress ={ ()=>{
-        //             console.log('clicked');
-        //             props.navigation.navigate('Image')
-        //         }}
-        //     />
-        //     <Button 
-        //         title = 'To counter'
-        //         onPress ={ ()=>{
-        //             props.navigation.navigate('Counter')
-        //         }}
-        //     />
-        //     <Button 
-        //         title = 'To colors'
-        //         onPress ={ ()=>{
-        //             props.navigation.navigate('Color')
-        //         }}
-        //     />
-        //     <Button 
-        //         title = 'To square'
-        //         onPress ={ ()=>{
-        //             props.navigation.navigate('Square')
-        //         }}
-        //     />
-        // </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  
-    container: {
+      backgroundColor: 'white',
       alignItems: 'center',
       justifyContent: 'center',
     },
   
     MainText:{
-      paddingTop: 50,
       color: 'red', 
       fontSize:20,
-      marginHorizontal: 16,
+      marginHorizontal: 13,
     },
-    tinyLogo: {
-      width: 50,
-      height: 50,
-    },
-  
     logo: {
-      paddingTop: 100,
+      paddingTop: 10,
       width: 360,
       height: 450,
       marginHorizontal: 15,
     },
   
     button: {
-      paddingTop: 50,
+      paddingTop: 20,
       backgroundColor: 'red',
       padding: 20,
       borderRadius: 5,
