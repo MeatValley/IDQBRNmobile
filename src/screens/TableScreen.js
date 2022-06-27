@@ -3,8 +3,17 @@ import {Text, View, StyleSheet} from 'react-native';
 import { Button } from 'react-native-web';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { DataTable } from 'react-native-paper';
+import axios from "axios";
+
 
 const TableScreen = () =>{
+    //testing server-----------------
+    const fetchData = () => {
+        const baseURL = "http://localhost:4556" ;
+        axios.get(`${baseURL}/users`).then((response) => console.log(response.data));
+    };
+    fetchData();
+    //-------------------------------
     const [table, setTable] = useState(0);
     const CONTENT = {
         tableHead: ['Column 0/Row 0', 'Column 1', 'Column 2', 'Column 3'],
