@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, Button, View} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import {useState, useEffect } from 'react';
-import { StyleSheet, Image, TouchableOpacity, TextInput} from 'react-native'; //
+import { StyleSheet, Image, TouchableOpacity, TextInput, ScrollView} from 'react-native'; //
 import * as Location from 'expo-location';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { DataTable } from 'react-native-paper';
@@ -15,20 +15,23 @@ const TableScreen = () =>{
     const [text, onChangeText] = React.useState("Useless Text");
     const [number, onChangeNumber] = React.useState(null);
     const [flexDirection, setflexDirection] = useState("column");
+    const [cityName, setCityName] = useState("Salvador");
+    
 
     const CONTENT = {
         tableHead: ['Doenças', 'Munícipio', 'Casos'],
         tableData: [
           ['Dengue', 'RJ', '3'],
           ['Picadas de Cobra', 'Buzios', '14'],
-          [' ', ' ', ' '],
-          [' ', ' ', ' '],
-          [' ', ' ', ' '],
-          [' ', ' ', ' '],
-          [' ', ' ', ' '],
-          [' ', ' ', ' '],
-          [' ', ' ', ' '],
-
+          ['Picadas de Cobra', 'Buzios', '14'],
+          ['Picadas de Cobra', 'Buzios', '14'],
+          ['Picadas de Cobra', 'Buzios', '14'],
+          ['Picadas de Cobra', 'Buzios', '14'],
+          ['Picadas de Cobra', 'Buzios', '14'],
+          ['Picadas de Cobra', 'Buzios', '14'],
+          ['Picadas de Cobra', 'Buzios', '14'],
+          ['Picadas de Cobra', 'Buzios', '14'],
+          ['Picadas de Cobra', 'Buzios', '14'],
         ],
       }
       const [location, setLocation] = useState(null);
@@ -78,6 +81,7 @@ const TableScreen = () =>{
         </View>
 
         <View style={ {flex:13}}>
+        <ScrollView style={styles.scrollView}>
             <Table borderStyle={{ borderWidth: 1,}}>
                 <Row
                     data={CONTENT.tableHead}
@@ -101,11 +105,12 @@ const TableScreen = () =>{
 
                 </TableWrapper>
             </Table>
+            </ScrollView>
         <View style={{flex:1 , backgroundColor: '#D8D7D7'}} />
 
         </View>
 
-        <View style={{flex:3 , backgroundColor: '#BEBEBE', alignItems: 'center', paddingTop: 20,}}>
+        <View style={{flex:3 , backgroundColor: '#D8D7D7', alignItems: 'center', paddingTop: 20,}}>
 
             <TouchableOpacity onPress={() => alert('')} style={styles.buttonSearch}>
                     <Text style={styles.buttonText}>                     Atualizar </Text>
@@ -118,11 +123,7 @@ const TableScreen = () =>{
 }
 
 const styles = StyleSheet.create({
-
-
-
-
-    container: { flex: 1, backgroundColor: '#fff', paddingHorizontal:10, },
+    container: { flex: 1, backgroundColor: '#bebebe', paddingHorizontal:10, },
 
     head: { height: 40, backgroundColor: '#FF0028', },
     wrapper: { flexDirection: 'row', },
@@ -154,6 +155,11 @@ const styles = StyleSheet.create({
       },
 
     LocationText:{fontSize:15, paddingTop:7,paddingHorizontal:10, alignItems: 'center',},
+
+    scrollView: {
+        backgroundColor: 'white',
+        marginHorizontal: 20,
+      },
   });
 
 export default TableScreen;
