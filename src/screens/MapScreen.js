@@ -8,18 +8,18 @@ import * as Location from 'expo-location';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {notInRange} from '../api/api'
+import { LogData } from 'react-native/Libraries/LogBox/LogBox';
 
 
 const MapScreen = (props) => {
 
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
-    const [dynamicRadius, setDynamicRadius] = useState(1000);
+    const [dynamicRadius, setDynamicRadius] = useState(5);
     const [cities, setCities] = useState([])
     const [temporaryRadius, setTemporaryRadius] = useState(0);
-    const [initArray, setInitArray] = useState([[-22.604461,-41.04031, 0],[-22.604461,-41.44031,0]])
-
-    const circlesListArray = [];
+    const [initArray, setInitArray] = useState([[-22.604461,-41.04031, 0],[-22.604461,-41.44031,0]]);
+    const [circlesListArray, setcirclesListArray] = useState([[-22.604461,-41.04031, 0],[-22.604461,-41.44031,0]]);
 
 
     useEffect(() => {
@@ -36,111 +36,87 @@ const MapScreen = (props) => {
 
     }, [])
 
-     for(let i = 0; i< initArray.length; i++){
-        circlesListArray.push(                
-             <Circle
-                 center={{latitude:initArray[i][0], longitude:initArray[i][1]}}
-                 radius={15*initArray[i][2]}
-                 fillColor={"#FF39337D"}
-                strokeColor={"#FF39337D"}
-            />
-        );
-     }
-
+    
     if (!location || location.length === 0) {
         return <ActivityIndicator />;}
 
     return (
-
         <View>
-
             <View>
                 <Text style={styles.MainText}> Mapa de Infecções: </Text>
                 <Text style={styles.SubText}>O Mapa tem como objetivo mostrar as notificações perto da localização do usuário em tempo real{'\n'}</Text>
-            </View> 
-
-        
-
-            <View style = {{backgroundColor:'red', height:400, width:300,}}>
-
-            { <MapView
-                style={styles.map}
-                initialRegion={{
-                    latitude: location.coords.latitude,
-                    longitude: location.coords.longitude,
-                    latitudeDelta: 0.3,
-                    longitudeDelta: 0.2,
-                }}
-
-            >
-            {location &&
-              <Marker
-                  coordinate={location.coords}
-
-              ></Marker>
-            }
-                
-                {circlesListArray}
-
-
-
-                <Circle
-                    key={"user"}
-                    center={{ latitude:location.coords.latitude, longitude: location.coords.longitude }}
-                    radius={dynamicRadius}
-                    fillColor={"#FF550000"}
-                    strokeColor={"blue"}
-                />
-
-                
-            </MapView>}
-
-
-
             </View>
-            <View style={{ height:300 , backgroundColor: '#D8D7D7', alignItems: 'center', paddingTop: 20,}}>
+            <View style={{ backgroundColor: 'red', height: 400, width: 300, }}>
+                {<MapView
+                    style={styles.map}
+                    initialRegion={{
+                        latitude: location.coords.latitude,
+                        longitude: location.coords.longitude,
+                        latitudeDelta: 0.3,
+                        longitudeDelta: 0.2,
+                    }}
+                >
+                    {location &&
+                        <Marker
+                            coordinate={location.coords}
+                        ></Marker>
+                    }
+                    
+                    { cities
+                    }
 
-            
-            <Text >Coloque um novo raio para ser mostrada no mapa:</Text>
-
-            <View style={{width: '80%', height: 35, backgroundColor: '#fff', borderRadius: 15, paddingHorizontal: 15, paddingTop:3, }}>
+                    <Circle
+                        key={"user"}
+                        center={{ latitude: location.coords.latitude, longitude: location.coords.longitude }}
+                        radius={dynamicRadius}
+                        fillColor={"#FF550000"}
+                        strokeColor={"blue"}
+                    />
+                </MapView>}
+            </View>
+            <View style={{ height: 300, backgroundColor: '#D8D7D7', alignItems: 'center', paddingTop: 20, }}>
+                <Text >Coloque um novo raio para ser mostrada no mapa:</Text>
+                <View style={{ width: '80%', height: 35, backgroundColor: '#fff', borderRadius: 15, paddingHorizontal: 15, paddingTop: 3, }}>
                     <TextInput
                         style={styles.input}
-                        placeholder="50km"
+                        placeholder="5km"
                         keyboardType="numeric"
                         onChangeText={newText => setTemporaryRadius(newText)}
                     />
-                    
-            </View> 
-            <Text style={{fontSize:5}}>{'\n'}</Text>
 
-            <TouchableOpacity onPress={() =>{
-                setDynamicRadius(parseInt(temporaryRadius)) & alert(dynamicRadius)
-                alert(dynamicRadius)
-                notInRange(location.coords.latitude, location.coords.longitude, dynamicRadius)
-                .then( data => {
-                    
-                    setCities(data);
-                    console.log(cities)
-                }
-                )
-                .catch(error=>{
-                    alert(error.message);
-                    throw error;
-                });
+                </View>
+                <Text style={{ fontSize: 5 }}>{'\n'}</Text>
+                <TouchableOpacity onPress={() => {
+                    setDynamicRadius(parseInt(temporaryRadius)) & alert(dynamicRadius)
+                    alert(dynamicRadius)
+                    notInRange(location.coords.latitude, location.coords.longitude, dynamicRadius)
+                        .then(data => {
+                            var list = []
+                            data.forEach(e => list.push(<Circle
+                                center={{ latitude: Number(e.latitude), longitude: Number(e.longitude) }}
+                                radius={Math.max(Math.sqrt(Number(e.casos)),Number(1000))}
+                                fillColor={"#FF39337D"}
+                                strokeColor={"#FF39337D"}
+                                />))
 
-            } } style={styles.buttonSearch}>
+                            setCities(list);
+                            console.log('------------------------------------------');
+                            console.log(cities);
+                        }
+                        )
+                        .catch(error => {
+                            alert(error.message);
+                            throw error;
+                        });
+
+                }} style={styles.buttonSearch}>
                     <Text style={styles.buttonText}>                     Atualizar </Text>
-            </TouchableOpacity>
-
+                </TouchableOpacity>
             </View>
-
-            
         </View>
-
     )
-
 }
+
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#fff', },

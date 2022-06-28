@@ -3,6 +3,7 @@ const cors = require('cors');
 var api = express();
 var mysql = require('mysql2');
 var bodyParser = require('body-parser');
+const e = require('express');
 
 api.use(bodyParser.json({ type: 'application/json' }));
 api.use(bodyParser.urlencoded({ extended: true }));
@@ -126,7 +127,12 @@ api.get('/notInRange', function (req, res) {
         WHERE diseasesmapdb.server_notificacoes.idmunicipio_id = citiesInRange.id  ;`, function (error, rows, fields) {
         if (error) console.log(error);
         else {
-            res.send(rows)
+            console.log(rows)
+            console.log('lista !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+            var lista = []
+            rows.forEach(e =>(lista.push({latitude: e.latitude, longitude: e.longitude,casos: e.casos,doenca: e.nomedoenca_id,cidade: e.nome})))
+            console.log(lista)
+            res.send(lista)
         }
     })
 })
