@@ -3,7 +3,9 @@ import { createStackNavigator } from "react-navigation-stack";
 import HomeScreen from './src/screens/HomeScreen';
 import TableScreen from "./src/screens/TableScreen";
 import MapScreen from "./src/screens/MapScreen";
+import { LogBox } from "react-native"
 
+LogBox.ignoreAllLogs(true)
 const navigator = createStackNavigator(
   {
     Home: HomeScreen,

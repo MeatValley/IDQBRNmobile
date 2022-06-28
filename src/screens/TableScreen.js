@@ -13,7 +13,7 @@ import {users, cases, currentCity} from '../api/api'
 const TableScreen = () =>{
     
     const CONTENT = {
-        tableHead: ['Doenças', 'Munícipio', 'Casos'],
+        tableHead: ['Munícipio', 'Doenças', 'Casos'],
         tableData: [
           ['', '', ''],
           ['', '', ''],

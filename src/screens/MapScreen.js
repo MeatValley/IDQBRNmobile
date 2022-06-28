@@ -20,7 +20,7 @@ const MapScreen = (props) => {
     const [temporaryRadius, setTemporaryRadius] = useState(0);
     const [initArray, setInitArray] = useState([[-22.604461, -41.04031, 0], [-22.604461, -41.44031, 0]]);
     const [circlesListArray, setcirclesListArray] = useState([[-22.604461, -41.04031, 0], [-22.604461, -41.44031, 0]]);
-
+    const [disease, setDisease] = useState('');
 
     useEffect(() => {
         (async () => {
@@ -105,7 +105,7 @@ const MapScreen = (props) => {
 
                 <TextInput
                     style={styles.input}
-                    placeholder="Nome da Doença"
+                    placeholder="Nome da Doença ou Cidade"
                     keyboardType="string"
                     onChangeText={newText => setDisease(newText)}
                 />
@@ -114,19 +114,35 @@ const MapScreen = (props) => {
         <Text style={{fontSize:5}}>{'\n'}</Text>
 
         <TouchableOpacity onPress={() => {
-                    setDynamicRadius(parseInt(temporaryRadius)) & alert(dynamicRadius)
-                    alert(dynamicRadius)
+                    setDynamicRadius(parseInt(temporaryRadius)) //& alert(dynamicRadius)
+                    //alert(dynamicRadius)
                     notInRange(location.coords.latitude, location.coords.longitude, dynamicRadius)
                         .then(data => {
                             var list = []
-                            data.forEach(e => list.push(<Circle
-                                center={{ latitude: Number(e.latitude), longitude: Number(e.longitude) }}
-                                radius={Math.max(Math.sqrt(Number(e.casos)),Number(1000))}
-                                fillColor={"#FF39337D"}
-                                strokeColor={"#FF39337D"}
+                            if (disease == '') {
+                                //alert('consulta sem filtro')
+                                data.forEach(e => list.push(
+                                <Circle
+                                    center={{ latitude: Number(e.latitude), longitude: Number(e.longitude) }}
+                                    radius={Math.max(Math.sqrt(Number(e.casos)), Number(1000))}
+                                    fillColor={"#FF39337D"}
+                                    strokeColor={"#FF39337D"}
                                 />))
+                            }
+                            else{
+                                //alert('consulta com filtro: ' + disease)
+                                data.forEach(e => {
+                                    if(e.doenca.toLowerCase().includes(disease.toLocaleLowerCase()) || e.cidade.toLowerCase().includes(disease.toLocaleLowerCase()))
+                                    list.push(
+                                    <Circle
+                                        center={{ latitude: Number(e.latitude), longitude: Number(e.longitude) }}
+                                        radius={Math.max(Math.sqrt(Number(e.casos)), Number(1000))}
+                                        fillColor={"#FF39337D"}
+                                        strokeColor={"#FF39337D"}
+                                    />)})
+                            }
                             setCities(list);
-                            console.log('------------------------------------------');
+                            console.log('-----------------------------------------------filtro: ' + disease+ '"');
                             console.log(cities);
                         }
                         )
