@@ -117,7 +117,7 @@ const TableScreen = () =>{
 
         <View style={{flex:3 , backgroundColor: '#D8D7D7', alignItems: 'center', paddingTop: 20,}}>
 
-            <TouchableOpacity onPress={() => setCityName('Recife') & alert('java')} style={styles.buttonSearch}>
+            <TouchableOpacity onPress={() => setCityName('Recife')} style={styles.buttonSearch}>
                     <Text style={styles.buttonText}>                     Atualizar </Text>
             </TouchableOpacity>
         
