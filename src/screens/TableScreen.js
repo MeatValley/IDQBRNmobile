@@ -12,16 +12,6 @@ import {users, cases, currentCity} from '../api/api'
 
 const TableScreen = () =>{
     
-    const [table, setTable] = useState(0);
-    const [text, onChangeText] = React.useState("Useless Text");
-    const [number, onChangeNumber] = React.useState(null);
-    const [flexDirection, setflexDirection] = useState("column");
-    const [cityName, setCityName] = useState("Salvador");
-    const [radius, setRadius] = useState("50")
-
-
-    
-
     const CONTENT = {
         tableHead: ['Doenças', 'Munícipio', 'Casos'],
         tableData: [
@@ -38,6 +28,17 @@ const TableScreen = () =>{
           ['Picadas de Cobra', 'Buzios', '14'],
         ],
       }
+    const [table, setTable] = useState(0);
+    const [text, onChangeText] = React.useState("Useless Text");
+    const [number, onChangeNumber] = React.useState(null);
+    const [flexDirection, setflexDirection] = useState("column");
+    const [cityName, setCityName] = useState("Salvador");
+    const [radius, setRadius] = useState("50")
+    const [notiData, setNotiData] = useState(CONTENT.tableData)
+
+
+    
+
       const [location, setLocation] = useState(null);
       const [errorMsg, setErrorMsg] = useState(null);
       
@@ -101,7 +102,7 @@ const TableScreen = () =>{
                         textStyle={styles.textHeader}
                     />
                     <Rows
-                        data={CONTENT.tableData}
+                        data={notiData}
                         flexArr={[1, 1, 1, 1]}
                         style={styles.row}
                         textStyle={styles.text}
@@ -117,14 +118,30 @@ const TableScreen = () =>{
         <View style={{flex:3 , backgroundColor: '#D8D7D7', alignItems: 'center', paddingTop: 20,}}>
 
             <TouchableOpacity onPress={() =>{
+                var dataOutput = [];
                 console.log("no app")
+
                 currentCity(location.coords.latitude, location.coords.longitude)
-                .then( data => console.log(setCityName(data[0].nome)))
+                .then( data => setCityName(data[0].nome))
                 .catch(error=>{
-                    console.log(error)
-                    setCityName("RJ")
+                    // console.log(error)
+                    // setCityName("RJ")
+                    alert(error.message);
+                    throw error;
                   });
-                setCityName('varjota');
+                cases(location.coords.latitude, location.coords.longitude, radius)
+                .then( data => {
+                    dataOutput = data;
+                    setNotiData(parseNotiData(dataOutput))
+                }
+                )
+                .catch(error=>{
+                    // console.log("erro")
+                    // console.log(error)
+                    // setNotiData(tableData)
+                    alert(error.message);
+                    throw error;
+                });
             }} style={styles.buttonSearch}>
                     <Text style={styles.buttonText}>                     Atualizar </Text>
             </TouchableOpacity>
@@ -133,6 +150,14 @@ const TableScreen = () =>{
         </View>
  
     )
+}
+
+const parseNotiData = ( data ) => {
+    const final = [];
+    data.forEach(row => {
+        final.push([row.nome, row.nomedoenca_id, row.casosTotal]);
+    });
+    return final;
 }
 
 const styles = StyleSheet.create({
