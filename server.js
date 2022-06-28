@@ -97,7 +97,7 @@ api.get('/currentCity', function (req, res) {
 })
 
 api.get('/notInRange', function (req, res) {
-    console.log('propriedades abaixo:')
+    console.log('propriedades not in range abaixo:')
     console.log(req.query)
     var latitude = Number(req.query.latitude);
     var longitude = Number(req.query.longitude);
@@ -115,7 +115,10 @@ api.get('/notInRange', function (req, res) {
     latitudemax = Number(latitudemax).toFixed(4)
     longitudemin = Number(longitudemin).toFixed(4)
     longitudemax = Number(longitudemax).toFixed(4)
-
+    console.log("lat min: " + latitudemin);
+    console.log("lat max: " + latitudemax);
+    console.log("lon min: " + longitudemin);
+    console.log("lon max: " + longitudemax);
     con.query(`WITH citiesInRange as (SELECT * FROM diseasesmapdb.server_localidades 
         WHERE latitude BETWEEN ${latitudemin} AND ${latitudemax}
         AND longitude BETWEEN ${longitudemin} AND ${longitudemax})

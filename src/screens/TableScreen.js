@@ -129,6 +129,7 @@ const TableScreen = () =>{
                     alert(error.message);
                     throw error;
                   });
+                  
                 cases(location.coords.latitude, location.coords.longitude, radius)
                 .then( data => {
                     dataOutput = data;
