@@ -17,9 +17,28 @@ const MapScreen = (props) => {
     const [dynamicRadius, setDynamicRadius] = useState(1000);
     const [cities, setCities] = useState([])
     const [temporaryRadius, setTemporaryRadius] = useState(0);
-    const [initArray, setInitArray] = useState([[-22.604461,-41.04031, 0],[-22.604461,-41.44031,0]])
+    const [initArray, setInitArray] = useState([[-22.604461,-41.04031, 300],[-22.604461,-41.44031,20000]])
+    const [disease, setDisease] = useState('')
+    const [circlesList, setCircleList] = useState( [       
+    <Circle      
+        center={{latitude: 0, longitude:0 }}
+        radius={200000}
+        fillColor={"#fff0"}
+        strokeColor={"#FF39337D"}
+    />,
+    <Circle      
+        center={{latitude: 0, longitude:-10 }}
+        radius={200000}
+        fillColor={"#fff0"}
+        strokeColor={"#FF39337D"}
+    />
+    ]              
+
+    )
+
 
     const circlesListArray = [];
+    
 
 
     useEffect(() => {
@@ -46,6 +65,7 @@ const MapScreen = (props) => {
             />
         );
      }
+     setCircleList(circlesListArray)
 
     if (!location || location.length === 0) {
         return <ActivityIndicator />;}
@@ -82,7 +102,7 @@ const MapScreen = (props) => {
                 
                 {circlesListArray}
 
-
+                {circlesList}
 
                 <Circle
                     key={"user"}
@@ -98,17 +118,28 @@ const MapScreen = (props) => {
 
 
             </View>
-            <View style={{ height:300 , backgroundColor: '#D8D7D7', alignItems: 'center', paddingTop: 20,}}>
-
+            <View style={{ height:300 , backgroundColor: '#D8D7D7', alignItems: 'center', paddingTop: 3,}}>
             
-            <Text >Coloque um novo raio para ser mostrada no mapa:</Text>
+            <Text style = {{padding:6}} >Coloque um novo filtro para ser mostrada no mapa:</Text>
 
             <View style={{width: '80%', height: 35, backgroundColor: '#fff', borderRadius: 15, paddingHorizontal: 15, paddingTop:3, }}>
                     <TextInput
                         style={styles.input}
-                        placeholder="50km"
+                        placeholder="Distância a partir de você (km): 50 km"
                         keyboardType="numeric"
                         onChangeText={newText => setTemporaryRadius(newText)}
+                    />
+                    
+            </View> 
+            <Text>{''}</Text>
+            
+            <View style={{width: '80%', height: 35, backgroundColor: '#fff', borderRadius: 15, paddingHorizontal: 15, paddingTop:3, }}>
+
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Nome da Doença"
+                        keyboardType="string"
+                        onChangeText={newText => setDisease(newText)}
                     />
                     
             </View> 
@@ -150,10 +181,10 @@ const styles = StyleSheet.create({
 
     buttonSearch: {
         backgroundColor: 'red',
-        padding: 10,
+        padding: 5,
         borderRadius: 10,
         width: 300,
-        height: 50,
+        height: 40,
     },
     SubText:{
         fontSize: 12,

@@ -62,6 +62,9 @@ const TableScreen = () =>{
             <View style={{flex: 1, width: '100%', height: '5%', backgroundColor: 'red', borderRadius: 5,}}> 
                 <Text style = {styles.MainText}>IDQBRN</Text>
             </View>
+            <View style={{backgroundColor: 'white', height:'1%',}}> 
+            </View>
+
         
         <View style={{ flex:5, width: '100%', height: 35,  backgroundColor: '#D8D7D7', borderRadius: 15,flexDirection: "row", flexWrap: "wrap", paddingTop:10, paddingStart:10,}}> 
         
@@ -85,7 +88,10 @@ const TableScreen = () =>{
 
         </View>
 
+        <View style={{backgroundColor: 'white', height:'1%',}}> 
+        </View>
         <View style={ {flex:13}}>
+
         <ScrollView style={styles.scrollView}>
             <Table borderStyle={{ borderWidth: 1,}}>
                 <Row
@@ -146,7 +152,6 @@ const TableScreen = () =>{
             }} style={styles.buttonSearch}>
                     <Text style={styles.buttonText}>                     Atualizar </Text>
             </TouchableOpacity>
-        
         </View>
         </View>
  
@@ -162,7 +167,7 @@ const parseNotiData = ( data ) => {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#bebebe', paddingHorizontal:10, },
+    container: { flex: 1, backgroundColor: 'white', },
 
     head: { height: 40, backgroundColor: '#FF0028', },
     wrapper: { flexDirection: 'row', },
@@ -171,7 +176,7 @@ const styles = StyleSheet.create({
     text: { textAlign: 'center', fontSize: 12, },
     textHeader: { textAlign: 'center', fontSize: 17,fontWeight: 'bold',},
 
-    MainText:{fontSize: 17,fontWeight: 'bold', paddingTop:5,paddingHorizontal:10, alignItems: 'center',
+    MainText:{fontSize: 17,fontWeight: 'bold', paddingTop:4,paddingHorizontal:10, alignItems: 'center',
     justifyContent: 'center',},
 
     SubText:{fontSize:14, paddingTop:4,paddingHorizontal:10, alignItems: 'center', fontWeight: 'bold'},
