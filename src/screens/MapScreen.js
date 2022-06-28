@@ -13,6 +13,7 @@ const MapScreen = (props) => {
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
     const [dynamicRadius, setDynamicRadius] = useState(1000);
+    const [cities, setCities] = useState([])
 
     useEffect(() => {
         (async () => {
