@@ -8,14 +8,31 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const HomeScreen = (props) =>{
+
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  
+  useEffect(() => {
+    (async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+            setErrorMsg('Permission to access location was denied');
+            return;
+        }
+
+        let location = await Location.getCurrentPositionAsync({});
+        setLocation(location);
+        //alert(location.coords.longitude+'\n'+location.coords.latitude)
+
+    })();
+}, [])
 
     return (
 
         <View style={styles.container}>
           <Text style = {styles.MainText}>Bem Vindo ao Mapeamento de Infecções do IDQBRN!</Text>
           <Image style={styles.logo} source={require('../../assets/home.jpeg')} />
+          
 
           <TouchableOpacity onPress={() => props.navigation.navigate('Table')} style={styles.buttonSearch}>
             <Text style={styles.buttonText}>    Consultar casos proximos</Text>
@@ -24,7 +41,7 @@ const HomeScreen = (props) =>{
           <View style={{
             width:'100%', height:'3%', backgroundColor: 'white'}} />
 
-          <TouchableOpacity onPress={() => props.navigation.navigate('Table')} style={styles.buttonSearch}>
+          <TouchableOpacity onPress={() => props.navigation.navigate('Map')} style={styles.buttonSearch}>
             <Text style={styles.buttonText}>                  Ver Mapa </Text>
           </TouchableOpacity> 
           

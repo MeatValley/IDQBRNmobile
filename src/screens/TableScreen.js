@@ -1,21 +1,21 @@
-import React, {useState, Component } from 'react';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import { Button } from 'react-native-web';
+import React from 'react';
+import {Text, Button, View} from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import {useState, useEffect } from 'react';
+import { StyleSheet, Image, TouchableOpacity, TextInput} from 'react-native'; //
+import * as Location from 'expo-location';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { DataTable } from 'react-native-paper';
-import axios from "axios";
 
 
 
 const TableScreen = () =>{
-    //testing server-----------------
-    const fetchData = () => {
-        const baseURL = "http://localhost:4556" ;
-        axios.get(`${baseURL}/users`).then((response) => console.log(response.data));
-    };
-    fetchData();
-    //-------------------------------
+    
     const [table, setTable] = useState(0);
+    const [text, onChangeText] = React.useState("Useless Text");
+    const [number, onChangeNumber] = React.useState(null);
+    const [flexDirection, setflexDirection] = useState("column");
+
     const CONTENT = {
         tableHead: ['Doenças', 'Munícipio', 'Casos'],
         tableData: [
@@ -23,18 +23,62 @@ const TableScreen = () =>{
           ['Picadas de Cobra', 'Buzios', '14'],
           [' ', ' ', ' '],
           [' ', ' ', ' '],
+          [' ', ' ', ' '],
+          [' ', ' ', ' '],
+          [' ', ' ', ' '],
+          [' ', ' ', ' '],
+          [' ', ' ', ' '],
+
         ],
       }
+      const [location, setLocation] = useState(null);
+      const [errorMsg, setErrorMsg] = useState(null);
+      
+      useEffect(() => {
+        (async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                setErrorMsg('Permission to access location was denied');
+                return;
+            }
+    
+            let location = await Location.getCurrentPositionAsync({});
+            setLocation(location);
+
+    
+        })();
+    }, [])
 
     return (
-        <View style={styles.container}>
         
-        <View style={{width: '100%', height: '15%', backgroundColor: '#D8D7D7'}}> 
-            <Text style = {styles.MainText}>Voce esta em: Rio de Janeiro </Text>
-
+        <View style={styles.container}>
+            <View style={{flex: 1, width: '100%', height: '5%', backgroundColor: 'red', borderRadius: 5,}}> 
+                <Text style = {styles.MainText}>IDQBRN</Text>
+            </View>
+        
+        <View style={{ flex:5, width: '100%', height: 35,  backgroundColor: '#D8D7D7', borderRadius: 15,flexDirection: "row", flexWrap: "wrap", paddingTop:10, paddingStart:10,}}> 
+        
+            <Text style = {styles.MainText}>Voce esta em:</Text>
+            <View style={{width: '50%', height: '22%', backgroundColor: '#fff', borderRadius: 15, paddingHorizontal: 10,}}>
+                <Text style = {styles.LocationText}>Rio de Janeiro</Text> 
+            </View> 
+            <Text>{'\n\n'}</Text>
+            <Text style = {styles.MainText}>Mostrar os casos em até (km) :</Text>
+            
+            <View style={{width: '20%', height: 35, backgroundColor: '#fff', borderRadius: 15, paddingHorizontal: 15, paddingTop:7, }}>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={onChangeNumber}
+                        value={number}
+                        placeholder="50km"
+                        keyboardType="numeric"
+                    />
+            </View> 
+            <Text style = {styles.MainText}>{'\n'}Doenças (Ordenadas por mais casos):</Text>
         </View>
 
-            <Table borderStyle={{ borderWidth: 1 }}>
+        <View style={ {flex:13}}>
+            <Table borderStyle={{ borderWidth: 1,}}>
                 <Row
                     data={CONTENT.tableHead}
                     flexArr={[1, 1, 1]}
@@ -45,28 +89,40 @@ const TableScreen = () =>{
                     <Col
                         data={CONTENT.tableTitle}
                         style={styles.title}
-                        heightArr={[28, 28]}
+                        heightArr={[28, 28,28,28]}
                         textStyle={styles.textHeader}
                     />
                     <Rows
                         data={CONTENT.tableData}
-                        flexArr={[1, 1, 1]}
+                        flexArr={[1, 1, 1, 1]}
                         style={styles.row}
                         textStyle={styles.text}
                     />
 
                 </TableWrapper>
             </Table>
+        <View style={{flex:1 , backgroundColor: '#D8D7D7'}} />
 
-            <View style={{
-            flex:1 , backgroundColor: '#D8D7D7'}} />
         </View>
+
+        <View style={{flex:3 , backgroundColor: '#BEBEBE', alignItems: 'center', paddingTop: 20,}}>
+
+            <TouchableOpacity onPress={() => alert('')} style={styles.buttonSearch}>
+                    <Text style={styles.buttonText}>                     Atualizar </Text>
+            </TouchableOpacity>
+        
+        </View>
+        </View>
+ 
     )
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#fff', },
 
+
+
+
+    container: { flex: 1, backgroundColor: '#fff', paddingHorizontal:10, },
 
     head: { height: 40, backgroundColor: '#FF0028', },
     wrapper: { flexDirection: 'row', },
@@ -74,14 +130,30 @@ const styles = StyleSheet.create({
     row: { height: 28, },
     text: { textAlign: 'center', fontSize: 12, },
     textHeader: { textAlign: 'center', fontSize: 17,fontWeight: 'bold',},
-    MainText:{fontSize: 17,fontWeight: 'bold',  },
+
+    MainText:{fontSize: 17,fontWeight: 'bold', paddingTop:5,paddingHorizontal:10, alignItems: 'center',
+    justifyContent: 'center',},
+
+    SubText:{fontSize:14, paddingTop:4,paddingHorizontal:10, alignItems: 'center', fontWeight: 'bold'},
+    buttonText:{fontSize:20, paddingTop:4, alignItems: 'center',justifyContent: 'center', display: 'flex', fontWeight: 'bold', color:'#fff'},
+
     buttonSearch: {
         backgroundColor: 'red',
-        padding: 10,
+        padding: 5,
+        paddingTop: 10,
         borderRadius: 10,
         width:300,
-        height: 50,
+        height: 60,
       },
+      input: {
+        height: 20,
+        margin: 1,
+        borderWidth: 0,
+        paddingTop:5,
+        paddingBottom:-9,
+      },
+
+    LocationText:{fontSize:15, paddingTop:7,paddingHorizontal:10, alignItems: 'center',},
   });
 
 export default TableScreen;
