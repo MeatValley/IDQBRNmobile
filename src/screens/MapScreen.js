@@ -17,7 +17,7 @@ const MapScreen = (props) => {
     const [dynamicRadius, setDynamicRadius] = useState(1000);
     const [cities, setCities] = useState([])
     const [temporaryRadius, setTemporaryRadius] = useState(0);
-    const [initArray, setInitArray] = useState([[-22.604461,-41.04031, 300],[-22.604461,-41.44031,20000]])
+    const [initArray, setInitArray] = useState([[-22.604461,-41.04031, 0],[-22.604461,-41.44031,0]])
     const [disease, setDisease] = useState('')
     const [circlesList, setCircleList] = useState( [       
     <Circle      
@@ -65,7 +65,7 @@ const MapScreen = (props) => {
             />
         );
      }
-     setCircleList(circlesListArray)
+
 
     if (!location || location.length === 0) {
         return <ActivityIndicator />;}
@@ -102,7 +102,7 @@ const MapScreen = (props) => {
                 
                 {circlesListArray}
 
-                {circlesList}
+
 
                 <Circle
                     key={"user"}
