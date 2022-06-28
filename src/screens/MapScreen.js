@@ -12,6 +12,7 @@ const MapScreen = (props) => {
 
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
+    const [dynamicRadius, setDynamicRadius] = useState(1000);
 
     useEffect(() => {
         (async () => {
@@ -33,20 +34,13 @@ const MapScreen = (props) => {
     return (
 
         <View>
+
             <View>
-                <Text style={styles.MainText}> Mapa de Infecções </Text>
-                { <MapView
-                style={styles.map}
-                initialRegion={{
-                    latitude: location.coords.latitude,
-                    longitude: location.coords.longitude,
-                    latitudeDelta: 10.0,
-                    longitudeDelta: 5.0,
-                }}
-            >
-            </MapView>}
-                <Text style={styles.MainText}> Moraes brabo dms </Text>
-            </View>
+                <Text style={styles.MainText}> Mapa de Infecções: </Text>
+                <Text style={styles.SubText}>O Mapa tem como objetivo mostrar as notificações perto da localização do usuário em tempo real{'\n'}</Text>
+            </View> 
+
+        
 
             <View style = {{backgroundColor:'red', height:400, width:300,}}>
 
@@ -55,23 +49,79 @@ const MapScreen = (props) => {
                 initialRegion={{
                     latitude: location.coords.latitude,
                     longitude: location.coords.longitude,
-                    latitudeDelta: 9.22,
-                    longitudeDelta: 4.21,
+                    latitudeDelta: 0.3,
+                    longitudeDelta: 0.2,
                 }}
 
             >
-                         {location &&
+            {location &&
               <Marker
                   coordinate={location.coords}
-                  //icon={require("../../assets/man2.png")}
+
               ></Marker>
-          }
+            }
+                <Circle
+                    key={"x1"}
+                    center={{ latitude: -22.604461, longitude: -43.444031 }}
+                    radius={20000}
+                    fillColor={"#FF39337D"}
+                    strokeColor={"#FF39337D"}
+                />
+
+                <Circle
+                    key={"x2"}
+                    center={{ latitude: -22.604461, longitude: -42.444031 }}
+                    radius={10000}
+                    fillColor={"#FF39337D"}
+                    strokeColor={"#FF39337D"}
+                />
+
+                <Circle
+                    key={"x3"}
+                    center={{ latitude: -21.804461, longitude: -43.44031 }}
+                    radius={20000}
+                    fillColor={"#FF39337D"}
+                    strokeColor={"#FF39337D"}
+                />
+
+                <Circle
+                    key={"x4"}
+                    center={{ latitude: -21.804461, longitude: -41.44031 }}
+                    radius={15000}
+                    fillColor={"#FF39337D"}
+                    strokeColor={"#FF39337D"}
+                />
+
+                <Circle
+                    key={"x5"}
+                    center={{ latitude:location.coords.latitude, longitude: location.coords.longitude }}
+                    radius={25000}
+                    fillColor={"#FFe800d7"}
+                    strokeColor={"blue"}
+                />
+
+                <Circle
+                    key={"x6"}
+                    center={{ latitude: -18.804461, longitude: -42.04031 }}
+                    radius={dynamicRadius}
+                    fillColor={"#FF39337D"}
+                    strokeColor={"#FF39337D"}
+                />
             </MapView>}
+
+            
+
+            </View>
+            <View style={{ height:300 , backgroundColor: '#D8D7D7', alignItems: 'center', paddingTop: 20,}}>
+
+
+            <TouchableOpacity onPress={() => setDynamicRadius(20000)} style={styles.buttonSearch}>
+                    <Text style={styles.buttonText}>                     Atualizar </Text>
+            </TouchableOpacity>
 
             </View>
 
-
- 
+            
         </View>
 
     )
@@ -82,7 +132,7 @@ const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#fff', },
 
     MainText: { fontSize:25, fontWeight: 'bold', },
-    map: { flex: 1, },
+    map: { flex: 1, width:360, borderRadius: 25, paddingHorizontal:10, },
 
     buttonSearch: {
         backgroundColor: 'red',
@@ -90,6 +140,12 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         width: 300,
         height: 50,
+    },
+    SubText:{
+        fontSize: 12,
+        color: 'grey',
+        alignItems: 'center',
+        paddingHorizontal:12
     },
 
     buttonText: {

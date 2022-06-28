@@ -49,9 +49,6 @@ const TableScreen = () =>{
     
             let location = await Location.getCurrentPositionAsync({});
             setLocation(location);
-            
-
-
     
         })();
     }, [])
