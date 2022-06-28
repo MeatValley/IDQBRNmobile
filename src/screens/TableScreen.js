@@ -16,6 +16,8 @@ const TableScreen = () =>{
     const [number, onChangeNumber] = React.useState(null);
     const [flexDirection, setflexDirection] = useState("column");
     const [cityName, setCityName] = useState("Salvador");
+    //setCityName("Recife");
+
     
 
     const CONTENT = {
@@ -47,6 +49,9 @@ const TableScreen = () =>{
     
             let location = await Location.getCurrentPositionAsync({});
             setLocation(location);
+            
+            setCityName()
+            alert(cityName)
 
     
         })();
@@ -63,7 +68,7 @@ const TableScreen = () =>{
         
             <Text style = {styles.MainText}>Voce esta em:</Text>
             <View style={{width: '50%', height: '22%', backgroundColor: '#fff', borderRadius: 15, paddingHorizontal: 10,}}>
-                <Text style = {styles.LocationText}>Rio de Janeiro</Text> 
+                <Text style = {styles.LocationText}>{cityName}</Text> 
             </View> 
             <Text>{'\n\n'}</Text>
             <Text style = {styles.MainText}>Mostrar os casos em até (km) :</Text>
@@ -112,7 +117,7 @@ const TableScreen = () =>{
 
         <View style={{flex:3 , backgroundColor: '#D8D7D7', alignItems: 'center', paddingTop: 20,}}>
 
-            <TouchableOpacity onPress={() => alert('')} style={styles.buttonSearch}>
+            <TouchableOpacity onPress={() => setCityName('Recife') & alert('java')} style={styles.buttonSearch}>
                     <Text style={styles.buttonText}>                     Atualizar </Text>
             </TouchableOpacity>
         
