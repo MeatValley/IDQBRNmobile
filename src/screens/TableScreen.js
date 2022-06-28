@@ -15,24 +15,15 @@ const TableScreen = () =>{
     const CONTENT = {
         tableHead: ['Doenças', 'Munícipio', 'Casos'],
         tableData: [
-          ['Dengue', 'RJ', '3'],
-          ['Picadas de Cobra', 'Buzios', '14'],
-          ['Picadas de Cobra', 'Buzios', '14'],
-          ['Picadas de Cobra', 'Buzios', '14'],
-          ['Picadas de Cobra', 'Buzios', '14'],
-          ['Picadas de Cobra', 'Buzios', '14'],
-          ['Picadas de Cobra', 'Buzios', '14'],
-          ['Picadas de Cobra', 'Buzios', '14'],
-          ['Picadas de Cobra', 'Buzios', '14'],
-          ['Picadas de Cobra', 'Buzios', '14'],
-          ['Picadas de Cobra', 'Buzios', '14'],
+          ['', '', ''],
+          ['', '', ''],
         ],
       }
     const [table, setTable] = useState(0);
     const [text, onChangeText] = React.useState("Useless Text");
     const [number, onChangeNumber] = React.useState(null);
     const [flexDirection, setflexDirection] = useState("column");
-    const [cityName, setCityName] = useState("Salvador");
+    const [cityName, setCityName] = useState("-");
     const [radius, setRadius] = useState("50")
     const [notiData, setNotiData] = useState(CONTENT.tableData)
 
