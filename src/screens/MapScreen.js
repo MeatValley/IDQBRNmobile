@@ -7,6 +7,7 @@ import MapView, { Circle, Marker } from "react-native-maps";
 import * as Location from 'expo-location';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {notInRange} from '../api/api'
 
 const MapScreen = (props) => {
 
@@ -130,7 +131,22 @@ const MapScreen = (props) => {
             </View> 
             <Text style={{fontSize:5}}>{'\n'}</Text>
 
-            <TouchableOpacity onPress={() => setDynamicRadius(parseInt(temporaryRadius)) & alert(dynamicRadius)} style={styles.buttonSearch}>
+            <TouchableOpacity onPress={() =>{
+                setDynamicRadius(parseInt(temporaryRadius)) & alert(dynamicRadius)
+                alert(dynamicRadius)
+                notInRange(location.coords.latitude, location.coords.longitude, dynamicRadius)
+                .then( data => {
+                    
+                    setCities(data);
+                    console.log(cities)
+                }
+                )
+                .catch(error=>{
+                    alert(error.message);
+                    throw error;
+                });
+
+            } } style={styles.buttonSearch}>
                     <Text style={styles.buttonText}>                     Atualizar </Text>
             </TouchableOpacity>
 

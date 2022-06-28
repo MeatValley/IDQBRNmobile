@@ -28,11 +28,12 @@ var currentCity = (lat, long) => {
     .catch(error=>console.log(error))
 }
 
-var notInRange = (lat, long) => {
+var notInRange = (lat, long, km) => {
     return axios.get(`${baseURL}/notInRange`, {
         params: {
             latitude : lat,
-            longitude: long
+            longitude: long,
+            km: km
         }
     }).then((response) => response.data)
     .catch(error=>console.log(error))
