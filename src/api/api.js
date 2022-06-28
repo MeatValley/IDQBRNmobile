@@ -8,33 +8,23 @@ var users = () => {
     });
 }
 var cases = (lat, long, km) => {
-    axios.get(`${baseURL}/diseasesInRange`, {
-        params: {
-            latitude : lat,
-            longitude: long,
-            km: km,
-        }
-        
-    }).then((response) => {
-        console.log('fui chamado')
-        console.log('casos')
-        console.log(response.data)
-        return response.data
-    });
+    return axios.get(`${baseURL}/diseasesInRange`, {
+            params: {
+                latitude : lat,
+                longitude: long,
+                km: km,
+            }
+        }).then((response) => response.data)
+        .catch(error=>console.log(error))
 }
 
 var currentCity = (lat, long) => {
-    axios.get(`${baseURL}/currentCity`, {
+    return axios.get(`${baseURL}/currentCity`, {
         params: {
             latitude : lat,
             longitude: long
         }
-    }).then((response) => {
-        console.log('fui chamado')
-        console.log('casos')
-        console.log(response.data)
-        return response.data[0]
-    });
+    }).then((response) => response.data)
+    .catch(error=>console.log(error))
 }
-
-export { users, cases, currentCity }
+export { users, cases, currentCity}

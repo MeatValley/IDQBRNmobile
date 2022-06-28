@@ -6,6 +6,7 @@ import { StyleSheet, Image, TouchableOpacity, TextInput, ScrollView} from 'react
 import * as Location from 'expo-location';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { DataTable } from 'react-native-paper';
+import {users, cases, currentCity} from '../api/api'
 
 
 
@@ -116,7 +117,16 @@ const TableScreen = () =>{
 
         <View style={{flex:3 , backgroundColor: '#D8D7D7', alignItems: 'center', paddingTop: 20,}}>
 
-            <TouchableOpacity onPress={() => setCityName('Recife')} style={styles.buttonSearch}>
+            <TouchableOpacity onPress={() =>{
+                console.log("no app")
+                currentCity(location.coords.latitude, location.coords.longitude)
+                .then( data => console.log(setCityName(data[0].nome)))
+                .catch(error=>{
+                    console.log(error)
+                    setCityName("RJ")
+                  });
+                setCityName('varjota');
+            }} style={styles.buttonSearch}>
                     <Text style={styles.buttonText}>                     Atualizar </Text>
             </TouchableOpacity>
         
@@ -158,7 +168,7 @@ const styles = StyleSheet.create({
         paddingBottom:-9,
       },
 
-    LocationText:{fontSize:15, paddingTop:7,paddingHorizontal:10, alignItems: 'center',},
+    LocationText:{fontSize:15, paddingTop:7,paddingHorizontal:10, alignItems: 'center'},
 
     scrollView: {
         backgroundColor: 'white',

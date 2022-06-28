@@ -87,6 +87,7 @@ api.get('/currentCity', function (req, res) {
         ORDER BY dist LIMIT 1;`, function (error, rows, fields) {
         if (error) console.log(error);
         else {
+            console.log("retorno do server:")
             console.log(rows)
             res.send(rows)
         }
