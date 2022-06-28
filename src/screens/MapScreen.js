@@ -8,6 +8,7 @@ import * as Location from 'expo-location';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+
 const MapScreen = (props) => {
 
     const [location, setLocation] = useState(null);
@@ -15,6 +16,10 @@ const MapScreen = (props) => {
     const [dynamicRadius, setDynamicRadius] = useState(1000);
     const [cities, setCities] = useState([])
     const [temporaryRadius, setTemporaryRadius] = useState(0);
+    const [initArray, setInitArray] = useState([[-22.604461,-41.04031, 0],[-22.604461,-41.44031,0]])
+
+    const circlesListArray = [];
+
 
     useEffect(() => {
         (async () => {
@@ -29,6 +34,17 @@ const MapScreen = (props) => {
         })();
 
     }, [])
+
+     for(let i = 0; i< initArray.length; i++){
+        circlesListArray.push(                
+             <Circle
+                 center={{latitude:initArray[i][0], longitude:initArray[i][1]}}
+                 radius={15*initArray[i][2]}
+                 fillColor={"#FF39337D"}
+                strokeColor={"#FF39337D"}
+            />
+        );
+     }
 
     if (!location || location.length === 0) {
         return <ActivityIndicator />;}
@@ -62,53 +78,20 @@ const MapScreen = (props) => {
 
               ></Marker>
             }
-                <Circle
-                    key={"x1"}
-                    center={{ latitude: -22.604461, longitude: -43.444031 }}
-                    radius={20000}
-                    fillColor={"#FF39337D"}
-                    strokeColor={"#FF39337D"}
-                />
+                
+                {circlesListArray}
+
+
 
                 <Circle
-                    key={"x2"}
-                    center={{ latitude: -22.604461, longitude: -42.444031 }}
-                    radius={10000}
-                    fillColor={"#FF39337D"}
-                    strokeColor={"#FF39337D"}
-                />
-
-                <Circle
-                    key={"x3"}
-                    center={{ latitude: -21.804461, longitude: -43.44031 }}
-                    radius={20000}
-                    fillColor={"#FF39337D"}
-                    strokeColor={"#FF39337D"}
-                />
-
-                <Circle
-                    key={"x4"}
-                    center={{ latitude: -21.804461, longitude: -41.44031 }}
-                    radius={15000}
-                    fillColor={"#FF39337D"}
-                    strokeColor={"#FF39337D"}
-                />
-
-                <Circle
-                    key={"x5"}
+                    key={"user"}
                     center={{ latitude:location.coords.latitude, longitude: location.coords.longitude }}
                     radius={dynamicRadius}
                     fillColor={"#FF550000"}
                     strokeColor={"blue"}
                 />
 
-                <Circle
-                    key={"x6"}
-                    center={{ latitude: -18.804461, longitude: -42.04031 }}
-                    radius={1500}
-                    fillColor={"#FF39337D"}
-                    strokeColor={"#FF39337D"}
-                />
+                
             </MapView>}
 
 
@@ -130,7 +113,7 @@ const MapScreen = (props) => {
             </View> 
             <Text style={{fontSize:5}}>{'\n'}</Text>
 
-            <TouchableOpacity onPress={() => setDynamicRadius(parseInt(temporaryRadius)) & alert(dynamicRadius)} style={styles.buttonSearch}>
+            <TouchableOpacity onPress={() => setDynamicRadius(parseInt(temporaryRadius))} style={styles.buttonSearch}>
                     <Text style={styles.buttonText}>                     Atualizar </Text>
             </TouchableOpacity>
 
