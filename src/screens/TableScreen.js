@@ -17,7 +17,8 @@ const TableScreen = () =>{
     const [number, onChangeNumber] = React.useState(null);
     const [flexDirection, setflexDirection] = useState("column");
     const [cityName, setCityName] = useState("Salvador");
-    //setCityName("Recife");
+    const [radius, setRadius] = useState("50")
+
 
     
 
@@ -73,13 +74,14 @@ const TableScreen = () =>{
             <View style={{width: '20%', height: 35, backgroundColor: '#fff', borderRadius: 15, paddingHorizontal: 15, paddingTop:7, }}>
                     <TextInput
                         style={styles.input}
-                        onChangeText={onChangeNumber}
                         value={number}
                         placeholder="50km"
                         keyboardType="numeric"
+                        onChangeText={newText => setRadius(newText)}
                     />
             </View> 
             <Text style = {styles.MainText}>{'\n'}Doenças (Ordenadas por mais casos):</Text>
+
         </View>
 
         <View style={ {flex:13}}>

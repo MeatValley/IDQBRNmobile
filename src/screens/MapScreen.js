@@ -109,7 +109,6 @@ const MapScreen = (props) => {
                 />
             </MapView>}
 
-            
 
             </View>
             <View style={{ height:300 , backgroundColor: '#D8D7D7', alignItems: 'center', paddingTop: 20,}}>
