@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, Button, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useState, useEffect } from 'react';
-import { StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native'; //
+import { StyleSheet, Image, TouchableOpacity, ActivityIndicator, TextInput } from 'react-native'; //
 import MapView, { Circle, Marker } from "react-native-maps";
 import * as Location from 'expo-location';
 import { NavigationContainer } from '@react-navigation/native';
@@ -14,6 +14,7 @@ const MapScreen = (props) => {
     const [errorMsg, setErrorMsg] = useState(null);
     const [dynamicRadius, setDynamicRadius] = useState(1000);
     const [cities, setCities] = useState([])
+    const [temporaryRadius, setTemporaryRadius] = useState(0);
 
     useEffect(() => {
         (async () => {
@@ -96,26 +97,40 @@ const MapScreen = (props) => {
                 <Circle
                     key={"x5"}
                     center={{ latitude:location.coords.latitude, longitude: location.coords.longitude }}
-                    radius={25000}
-                    fillColor={"#FFe800d7"}
+                    radius={dynamicRadius}
+                    fillColor={"#FF550000"}
                     strokeColor={"blue"}
                 />
 
                 <Circle
                     key={"x6"}
                     center={{ latitude: -18.804461, longitude: -42.04031 }}
-                    radius={dynamicRadius}
+                    radius={1500}
                     fillColor={"#FF39337D"}
                     strokeColor={"#FF39337D"}
                 />
             </MapView>}
 
 
+
             </View>
             <View style={{ height:300 , backgroundColor: '#D8D7D7', alignItems: 'center', paddingTop: 20,}}>
 
+            
+            <Text >Coloque um novo raio para ser mostrada no mapa:</Text>
 
-            <TouchableOpacity onPress={() => setDynamicRadius(20000)} style={styles.buttonSearch}>
+            <View style={{width: '80%', height: 35, backgroundColor: '#fff', borderRadius: 15, paddingHorizontal: 15, paddingTop:3, }}>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="50km"
+                        keyboardType="numeric"
+                        onChangeText={newText => setTemporaryRadius(newText)}
+                    />
+                    
+            </View> 
+            <Text style={{fontSize:5}}>{'\n'}</Text>
+
+            <TouchableOpacity onPress={() => setDynamicRadius(parseInt(temporaryRadius)) & alert(dynamicRadius)} style={styles.buttonSearch}>
                     <Text style={styles.buttonText}>                     Atualizar </Text>
             </TouchableOpacity>
 
